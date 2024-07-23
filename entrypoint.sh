@@ -1,28 +1,10 @@
 #!/bin/sh -e
 
 # Add the custom files (world, mods, plugins)
-# World =======================
-if [ "${WORLD}" != "" ]; then
-  if [ ! "$(ls -A /minecraft/world)" ]; then 
-    echo "Installing default world ${WORLD}"
-    
-    # Create world folder
-    if [ ! -d "/minecraft/world" ]; then
-      mkdir /minecraft/world
-    fi
-   
-   # Download world and extract to the world folder
-    cd /tmp && \
-      wget -O world.tar.gz ${WORLD} && \
-      tar -C /minecraft/world -xzf world.tar.gz && \
-      rm world.tar.gz
-  fi
-fi
-
 # Mods =======================
 if [ "${MODS}" != "" ]; then 
-  if [ ! "$(ls -A /minecraft/mods)" ]; then 
-    echo "Installing default mods ${MODS}"
+  # if [ ! "$(ls -A /minecraft/mods)" ]; then 
+    echo "Installing custom mods ${MODS}"
     
     # Create mods folder
     if [ ! -d "/minecraft/mods" ]; then
@@ -31,28 +13,11 @@ if [ "${MODS}" != "" ]; then
 
     # Download and extract to the mods folder
     cd /tmp && \
-      wget -O mods.tar.gz ${MODS} && \
-      tar -C /minecraft/mods -xzf mods.tar.gz && \
-      rm mods.tar.gz
-  fi
-fi
-
-# Plugins ======================
-if [ "${PLUGINS}" != "" ]; then 
-  if [ ! "$(ls -A /minecraft/plugins)" ]; then 
-    echo "Installing default plugins ${PLUGINS}"
-    
-    # Create plugins folder
-    if [ ! -d "/minecraft/plugins" ]; then
-      mkdir /minecraft/plugins
-    fi
-
-    # Download and extract to plugins folder
-    cd /tmp && \
-      wget -O plugins.tar.gz ${PLUGINS} && \
-      tar -C /minecraft/plugins -xzf plugins.tar.gz && \
-      rm plugins.tar.gz
-  fi
+      wget -O mods.zip ${MODS} && \
+      unzip mods.zip -d /minecraft/mods && \
+      mv /minecraft/mods/*/*.jar /minecraft/mods && \
+      rm mods.zip
+  # fi
 fi
 
 # Set important files, so they can persist

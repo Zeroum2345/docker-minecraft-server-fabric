@@ -11,24 +11,24 @@ RUN curl -L -o rcon-cli.tar.gz https://github.com/itzg/rcon-cli/releases/downloa
   mv rcon-cli /usr/local/bin
 
 # Server Setup (Change version if needed)
-RUN wget -c https://meta.fabricmc.net/v2/versions/loader/1.20.1/0.15.7/1.0.0/server/jar -O fabric-server-launch.jar
+RUN wget -O fabric-server-launch.jar https://meta.fabricmc.net/v2/versions/loader/1.20.1/0.15.7/1.0.0/server/jar
 
-#Copy the eula to the signed one
+RUN apt-get install unzip
+
+#Change eula to the signed one
 COPY ./eula.txt eula.txt
 
-# Copy the entrypoint to the workdir to persist)
+# Copy the entrypoint to the workdir (persist)
 COPY ./entrypoint.sh /minecraft/entrypoint.sh
 
-# Copy the server properties to the workdir (to persist)
-COPY ./server.properties /server.properties
+# Copy the server properties to the workdir (persist)
+COPY ./server.properties /minecraft/server.properties
 
 # Custom memory alocation
 ENV JAVA_MEMORY=4G
 
 # Custom files (download link)
-# Blank if default settings
-ENV WORLD=""
+# Blank for default settings
 ENV MODS="" 
-ENV PLUGINS=""
 
 ENTRYPOINT ["sh", "/minecraft/entrypoint.sh"]
