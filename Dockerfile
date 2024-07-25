@@ -1,4 +1,4 @@
-FROM openjdk:17-slim
+FROM openjdk:21-slim
 
 WORKDIR /minecraft
 
@@ -11,7 +11,7 @@ RUN curl -L -o rcon-cli.tar.gz https://github.com/itzg/rcon-cli/releases/downloa
   mv rcon-cli /usr/local/bin
 
 # Server Setup (Change version if needed)
-RUN wget -O fabric-server-launch.jar https://meta.fabricmc.net/v2/versions/loader/1.20.1/0.15.7/1.0.0/server/jar
+RUN wget -O fabric-server-launch.jar https://meta.fabricmc.net/v2/versions/loader/1.21/0.15.11/1.0.1/server/jar
 
 RUN apt-get install unzip
 
@@ -29,6 +29,7 @@ ENV JAVA_MEMORY=4G
 
 # Custom files (download link)
 # Blank for default settings
+ENV WORLD="" 
 ENV MODS="" 
 
 ENTRYPOINT ["sh", "/minecraft/entrypoint.sh"]

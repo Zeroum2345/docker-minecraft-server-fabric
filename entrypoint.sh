@@ -20,6 +20,24 @@ if [ "${MODS}" != "" ]; then
   # fi
 fi
 
+if [ "${WORLD}" != "" ]; then 
+  # if [ ! "$(ls -A /minecraft/mods)" ]; then 
+    echo "Installing custom world ${WORLD}"
+    
+    # Create world folder
+    if [ ! -d "/minecraft/world" ]; then
+      mkdir /minecraft/world
+    fi
+
+    # Download and extract to the world folder
+    cd /tmp && \
+      wget -O world.zip ${WORLD} && \
+      unzip world.zip -d /minecraft/world && \
+      mv /minecraft/world/*/* /minecraft/world && \
+      rm world.zip
+  # fi
+fi
+
 # Set important files, so they can persist
 if [ ! -d "/minecraft/config" ]; then
   mkdir /minecraft/config
